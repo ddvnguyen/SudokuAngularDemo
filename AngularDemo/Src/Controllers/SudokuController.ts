@@ -16,7 +16,9 @@ export class SudokuController
         sudokuData12: number[][]
     }
     public sudokuResult: number[][] = [[]];
-    private currentNode: number;
+    private currentIndex: number;
+    public isStop: boolean = false;
+    public runTime: number = 0;
     constructor( @Inject(SudokuService) private sudokuService: SudokuService)
     {
         console.warn("SudokuController constructor");
@@ -56,27 +58,72 @@ export class SudokuController
         this.scope.sudokuData = sudoku9;
         this.scope.sudokuData12 = sudoku12;
 
-        Object.assign(this.sudokuResult,this.scope.sudokuData);
+        Object.assign(this.sudokuResult, this.scope.sudokuData);
 
         //var result = this.sudokuService.solveSudoku(this.scope.sudokuData, 4, 3, 4, 3);
-        var result = this.sudokuService.solveSudoku(this.scope.sudokuData, 3, 3, 3, 3);
-        this.scope.sudokuResult = result
-        console.warn("Data", this.sudokuResult, this.scope.sudokuData);
-
-        this.currentNode = 0;
+        //var result = this.sudokuService.solveSudoku(this.scope.sudokuData, 3, 3, 3, 3); 
     }
 
     public cellClass(fix: boolean, index: number)
     {
-        var classStr:string = "";
-        
-        if (this.currentNode === index)
+        var classStr: string = "";
+
+        if (this.currentIndex === index)
             classStr = "current-cell";
 
         if (fix)
             classStr = "fixed-cell";
 
-        console.log(fix, index, classStr);
+        //console.log(fix, index, classStr);
         return classStr;
+    }
+
+    public runSolve = () =>
+    {
+        console.warn("Data", this.sudokuResult, this.scope.sudokuData);
+        var C = this.sudokuService.setInitData(this.scope.sudokuData, 3, 3, 3, 3);
+        var width: number = 3;
+        var height: number = 3;
+        this.currentIndex = 0;
+        var resultX: number;
+        this.runTime = 0;
+        var RealIndex: number[] = new Array;
+
+
+        for (this.currentIndex = 0; this.currentIndex < 81; this.currentIndex++)
+        {
+
+            if (this.isStop)
+                break;
+
+            var i = Math.floor((this.currentIndex) / (width * height));
+            var j = (this.currentIndex + 1) % (width * height);
+            console.log("index", this.currentIndex, i, j);
+
+            resultX = 0;
+
+            if (C[this.currentIndex] === 0)
+            {
+                if (RealIndex[this.currentIndex] === null || RealIndex[this.currentIndex] === undefined)
+                    RealIndex[this.currentIndex] = 0;
+
+                resultX = this.sudokuService.getResultForCell(this.currentIndex, RealIndex);
+                this.sudokuResult[i][j] = C[this.currentIndex];
+            }
+
+            if (resultX > 0)
+            {
+                this.currentIndex = this.currentIndex - (1 + resultX);
+                RealIndex[this.currentIndex + 1]++;
+            }
+            this.runTime++;
+
+            if (this.runTime > 10000)
+            {
+                console.error("loop!!!");
+                break;
+            }
+        }
+
     }
 }

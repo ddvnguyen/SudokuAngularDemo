@@ -18,6 +18,7 @@ var SudokuService = (function () {
         this.RF = new Array();
         this.C = new Array();
         this.setInitData = function (data, wSmall, hSmall, wBig, hBig) {
+            console.warn("setInitData");
             for (var hb = 0; hb < hBig; hb++)
                 for (var wb = 1; wb <= wBig; wb++)
                     for (var hs = 0; hs < hSmall; hs++)
@@ -36,9 +37,10 @@ var SudokuService = (function () {
                             }
                             _this.RF.push(referenceNode.row.toString() + referenceNode.block.toString() + referenceNode.column.toString());
                         }
+            return _this.C;
         };
         this.getResultForCell = function (index, RealIndex) {
-            _this.getAvailableForCell(index, _this.RF, _this.C, _this.AvailableArray, RealIndex, _this.FIX);
+            return _this.getAvailableForCell(index, _this.RF, _this.C, _this.AvailableArray, RealIndex, _this.FIX);
         };
         this.solveSudoku = function (data, wSmall, hSmall, wBig, hBig) {
             console.log("solveSudoku", data);

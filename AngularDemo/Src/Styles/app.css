@@ -13,14 +13,16 @@ span
 {
     border: solid 1px black;
     border-spacing: 0px;
+    border-spacing: 0px;
     border-collapse: collapse;
+    display:table;
 }
 
     .sudoku-board tr
     {
-        border: solid 1px black;
+        display: flex;
         border-spacing: 0px;
-        padding:0px;
+        padding: 0px;
     }
 
     .sudoku-board td
@@ -32,6 +34,7 @@ span
 
 .sudoku-cell
 {
+    border: solid 1px black;
     height: 22px;
     width: 22px;
     text-align: center;
@@ -40,12 +43,12 @@ span
 
 .fixed-cell
 {
-    background-color: cornflowerblue     ;
+    background-color: cornflowerblue;
 }
 
 .current-cell
 {
-    background-color: orangered  ;
+    background-color: orangered;
 }
 
 .fill

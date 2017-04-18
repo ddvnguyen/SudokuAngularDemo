@@ -16,6 +16,7 @@ export class SudokuService
 
     public setInitData = (data: number[][], wSmall: number, hSmall: number, wBig: number, hBig: number) =>
     {
+        console.warn("setInitData");
         for (var hb = 0; hb < hBig; hb++)
             for (var wb = 1; wb <= wBig; wb++)
                 for (var hs = 0; hs < hSmall; hs++)
@@ -40,13 +41,12 @@ export class SudokuService
 
                         this.RF.push(referenceNode.row.toString() + referenceNode.block.toString() + referenceNode.column.toString());
                     }
-
-
+        return this.C;
     }
 
-    public getResultForCell = (index: number, RealIndex:number[]) =>
+    public getResultForCell = (index: number, RealIndex: number[]) =>
     {
-        this.getAvailableForCell(index, this.RF, this.C, this.AvailableArray, RealIndex, this.FIX);
+        return this.getAvailableForCell(index, this.RF, this.C, this.AvailableArray, RealIndex, this.FIX);
     }
 
     public solveSudoku = (data: number[][], wSmall: number, hSmall: number, wBig: number, hBig: number) =>
@@ -54,7 +54,7 @@ export class SudokuService
         console.log("solveSudoku", data);
         var C: number[] = new Array();
         var FIX: boolean[] = new Array();
-        var RF:string[] = new Array();
+        var RF: string[] = new Array();
         var AvailableArray: number[][] = new Array();
 
         //var referenceFrameTemp = "";

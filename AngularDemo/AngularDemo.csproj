@@ -88,13 +88,11 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Src\app\app.component.css" />
-    <Content Include="Src\app\app.component.html" />
     <Content Include="Global.asax" />
     <Content Include="index.html" />
     <Content Include="Src\Controllers\SudokuController.html" />
     <Content Include="Src\Directives\BoardDrawDirective.html" />
     <Content Include="Src\Styles\app.css" />
-    <Content Include="styles.css" />
     <Content Include="systemjs-angular-loader.js" />
     <Content Include="systemjs.config.extras.js" />
     <Content Include="systemjs.config.js" />
@@ -132,7 +130,6 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Src\app\app.component.ts" />
     <TypeScriptCompile Include="Src\app\app.module.ts" />
     <TypeScriptCompile Include="Src\app\main.ts" />
     <TypeScriptCompile Include="Src\Controllers\SudokuController.ts" />

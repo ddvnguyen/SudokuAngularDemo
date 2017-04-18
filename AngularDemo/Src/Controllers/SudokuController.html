@@ -1,13 +1,26 @@
 ﻿<div ng-controller="SudokuController">
 
-    <board-draw [sudokuData]="scope.sudokuData" [sudokuResult]="scope.sudokuResult"></board-draw>
+    <!--<board-draw [sudokuData]="scope.sudokuData" [sudokuResult]="scope.sudokuResult"></board-draw>
 
-    <hr />
+    <hr />-->
+    <div class="row col-xs-12">
+        <label>{{runTime}}</label>
+    </div>
 
-    <div *ngFor="let row of sudokuResult;let i = index">
-        <span class="sudoku-cell" *ngFor="let col of row;let j = index"
-              [ngClass]="cellClass(scope.sudokuData[i][j] === col && col !== 0,i*9+j)"
-              [innerHTML]="col !== 0?col:'0 &nbsp;'">  {{col}}
-        </span>
+    
+    <div class="row col-xs-12">
+        <div style="border:solid 1px;display:inline-grid">
+            <div *ngFor="let row of sudokuResult;let i = index">
+                <span class="sudoku-cell" *ngFor="let col of row;let j = index"
+                      [ngClass]="cellClass(scope.sudokuData[i][j] === col && col !== 0,i*9+j)"
+                      [innerHTML]="col !== 0?col:'&nbsp;'">
+                    {{col}}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row col-xs-12">
+        <input type="button" class="btn btn-primary" value="Go" (click)="runSolve()" />
     </div>
 </div>
