@@ -1,0 +1,42 @@
+﻿<div>
+
+    <div *ngIf="sudokuResult !== undefined">
+        <label>Answer Mode</label>
+        <table class="sudoku-board">
+
+            <tr *ngFor="let row of sudokuResult;let i = index">
+                <td *ngFor="let col of row;let j = index" class="table-bordered sudoku-cell"
+                    [ngClass]="sudokuData[i][j] === col?'fixed-cell':''"
+                    [innerHTML]="col !== 0?col:''"></td>
+            </tr>
+        </table>
+
+        <br />
+
+        <div *ngFor="let row of sudokuResult;let i = index">
+            <span class="sudoku-cell" *ngFor="let col of row;let j = index"   
+                          [ngClass]="sudokuData[i][j] === col?'fixed-cell':''"
+                          [innerHTML]="col !== 0?col:'&nbsp;'">
+            </span>
+        </div>
+
+    </div>
+
+    <div *ngIf="sudokuResult === undefined">
+        <label>Question Mode</label>
+        <table class="table-bordered">
+            <tr *ngFor="let row of sudokuData;let i = index">
+                <ng-container *ngFor="let col of row;let j = index">
+                    <td class="sudoku-cell fixed-cell"
+                        *ngIf="sudokuData[i][j] !== 0"
+                        [innerHTML]="col !== 0?col:''"></td>
+
+                    <td class="sudoku-cell"
+                        *ngIf="sudokuData[i][j] === 0"
+                        [innerHTML]="col !== 0?col:''"></td>
+                </ng-container>
+            </tr>
+        </table>
+    </div>
+
+</div>

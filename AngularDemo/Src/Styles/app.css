@@ -1,0 +1,60 @@
+﻿body
+{
+    font-family: 'Segoe UI', sans-serif;
+}
+
+span
+{
+    font-style: italic;
+}
+
+
+.sudoku-board
+{
+    border: solid 1px black;
+    border-spacing: 0px;
+    border-collapse: collapse;
+}
+
+    .sudoku-board tr
+    {
+        border: solid 1px black;
+        border-spacing: 0px;
+        padding:0px;
+    }
+
+    .sudoku-board td
+    {
+        border: solid 1px black;
+        border-spacing: 0px;
+        padding: 0px;
+    }
+
+.sudoku-cell
+{
+    height: 22px;
+    width: 22px;
+    text-align: center;
+    display: inline-block;
+}
+
+.fixed-cell
+{
+    background-color: cornflowerblue     ;
+}
+
+.current-cell
+{
+    background-color: orangered  ;
+}
+
+.fill
+{
+    margin: 4px 0 0 0;
+    padding: 0 0 0 0;
+}
+
+.click-number
+{
+    padding: 1px 3px !important;
+}
