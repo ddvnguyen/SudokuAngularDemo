@@ -61,3 +61,18 @@ span
 {
     padding: 1px 3px !important;
 }
+
+.isPause
+{
+    background-color:darkslategrey;
+}
+
+    .isPause:hover
+    {
+        background-color:green;
+    }
+
+    .isPause:focus
+    {
+        background-color: green;
+    }

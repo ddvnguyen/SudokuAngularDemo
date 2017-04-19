@@ -1,4 +1,5 @@
 ﻿import { Injectable, Inject } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 import { ReferenceNode } from "../Models/index";
 
 @Injectable()
@@ -41,6 +42,7 @@ export class SudokuService
 
                         this.RF.push(referenceNode.row.toString() + referenceNode.block.toString() + referenceNode.column.toString());
                     }
+
         return this.C;
     }
 

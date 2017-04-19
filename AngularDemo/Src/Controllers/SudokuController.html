@@ -3,24 +3,25 @@
     <!--<board-draw [sudokuData]="scope.sudokuData" [sudokuResult]="scope.sudokuResult"></board-draw>
 
     <hr />-->
-    <div class="row col-xs-12">
+    <div class="row col-xs-12 form-group">
         <label>{{runTime}}</label>
     </div>
 
     
-    <div class="row col-xs-12">
+    <div class="row col-xs-12 form-group">
         <div style="border:solid 1px;display:inline-grid">
             <div *ngFor="let row of sudokuResult;let i = index">
                 <span class="sudoku-cell" *ngFor="let col of row;let j = index"
-                      [ngClass]="cellClass(scope.sudokuData[i][j] === col && col !== 0,i*9+j)"
+                      [ngClass]="cellClass(scope.sudokuData[i][j] === col && scope.sudokuData[i][j] !== 0,i*9+j)"
                       [innerHTML]="col !== 0?col:'&nbsp;'">
-                    {{col}}
                 </span>
             </div>
         </div>
     </div>
 
-    <div class="row col-xs-12">
+    <div class="row col-xs-12 btn-group">
         <input type="button" class="btn btn-primary" value="Go" (click)="runSolve()" />
+        <input type="button" class="btn btn-primary" [ngClass]="isPause === true?'isPause':''" value="Pause" (click)="isPause = !isPause" />
+        <input type="button" class="btn btn-danger" value="Stop" (click)="isStop = true;isPause= false;" />
     </div>
 </div>

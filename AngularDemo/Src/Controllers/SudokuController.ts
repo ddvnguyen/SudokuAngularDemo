@@ -1,5 +1,6 @@
 ﻿import { Component, Inject, ViewContainerRef, ChangeDetectorRef, NgModule, OnInit, OnDestroy, AfterViewInit, NgZone } from '@angular/core';
 import { SudokuService } from "../Services/SudokuService"
+import { Observable } from 'rxjs/Rx';
 
 @Component
     ({
@@ -15,14 +16,15 @@ export class SudokuController
         sudokuResult: number[][],
         sudokuData12: number[][]
     }
-    public sudokuResult: number[][] = [[]];
+    public sudokuResult: number[][] = new Array();
     private currentIndex: number;
     public isStop: boolean = false;
+    public isPause: boolean = false;
     public runTime: number = 0;
     constructor( @Inject(SudokuService) private sudokuService: SudokuService)
     {
         console.warn("SudokuController constructor");
-        this.scope = { sudokuData: undefined, sudokuResult: undefined, sudokuData12: undefined };
+        this.scope = { sudokuData: new Array(), sudokuResult: new Array(), sudokuData12: new Array() };
         var sudoku12 =
             [
                 [7, 0, 0, 0, 0, 0, 6, 0, 4, 12, 9, 0],
@@ -55,10 +57,12 @@ export class SudokuController
                 [0, 0, 0, 0, 7, 0, 9, 0, 0]
             ];
 
-        this.scope.sudokuData = sudoku9;
-        this.scope.sudokuData12 = sudoku12;
-
-        Object.assign(this.sudokuResult, this.scope.sudokuData);
+        //this.scope.sudokuData = sudoku9;
+        //this.scope.sudokuData12 = sudoku12;
+        //this.sudokuResult = sudoku9;
+        this.sudokuResult = this.deepCopy(sudoku9);
+        this.scope.sudokuData = this.deepCopy(sudoku9);
+        //this.scope.sudokuData = Object.create(sudoku9);
 
         //var result = this.sudokuService.solveSudoku(this.scope.sudokuData, 4, 3, 4, 3);
         //var result = this.sudokuService.solveSudoku(this.scope.sudokuData, 3, 3, 3, 3); 
@@ -81,7 +85,7 @@ export class SudokuController
     public runSolve = () =>
     {
         console.warn("Data", this.sudokuResult, this.scope.sudokuData);
-        var C = this.sudokuService.setInitData(this.scope.sudokuData, 3, 3, 3, 3);
+        var C = this.sudokuService.setInitData(this.sudokuResult, 3, 3, 3, 3);
         var width: number = 3;
         var height: number = 3;
         this.currentIndex = 0;
@@ -89,41 +93,61 @@ export class SudokuController
         this.runTime = 0;
         var RealIndex: number[] = new Array;
 
-
-        for (this.currentIndex = 0; this.currentIndex < 81; this.currentIndex++)
+        var loop = setInterval(() =>
         {
+            if (!this.isPause)
+                if (this.currentIndex > 80 || this.isStop || this.runTime > 10000)
+                    clearInterval(loop);
+                else
+                {
 
-            if (this.isStop)
-                break;
+                    var i = Math.floor((this.currentIndex) / (width * height));
+                    var j = (this.currentIndex) % (width * height);
+                    //console.log("index", this.currentIndex, i, j);
 
-            var i = Math.floor((this.currentIndex) / (width * height));
-            var j = (this.currentIndex + 1) % (width * height);
-            console.log("index", this.currentIndex, i, j);
+                    resultX = 0;
 
-            resultX = 0;
+                    if (C[this.currentIndex] === 0)
+                    {
+                        if (RealIndex[this.currentIndex] === null || RealIndex[this.currentIndex] === undefined)
+                            RealIndex[this.currentIndex] = 0;
 
-            if (C[this.currentIndex] === 0)
+                        resultX = this.sudokuService.getResultForCell(this.currentIndex, RealIndex)
+                        this.sudokuResult[i][j] = C[this.currentIndex];
+                    }
+
+                    if (resultX > 0)
+                    {
+                        this.currentIndex = this.currentIndex - (1 + resultX);
+                        RealIndex[this.currentIndex + 1]++;
+                    }
+
+                    this.runTime++;
+                    this.currentIndex++;
+                    console.log("Question Data:", this.scope.sudokuData);
+                    console.log("Answer Data:", this.sudokuResult);
+                }
+
+        }, 100);
+
+        if (this.runTime > 10000)
+            console.error("loop!!!");
+
+        console.log("Question Data:", this.scope.sudokuData);
+        this.isStop = false;
+    }
+
+    public deepCopy(oldObj: any)
+    {
+        var newObj = oldObj;
+        if (oldObj && typeof oldObj === "object")
+        {
+            newObj = Object.prototype.toString.call(oldObj) === "[object Array]" ? [] : {};
+            for (var i in oldObj)
             {
-                if (RealIndex[this.currentIndex] === null || RealIndex[this.currentIndex] === undefined)
-                    RealIndex[this.currentIndex] = 0;
-
-                resultX = this.sudokuService.getResultForCell(this.currentIndex, RealIndex);
-                this.sudokuResult[i][j] = C[this.currentIndex];
-            }
-
-            if (resultX > 0)
-            {
-                this.currentIndex = this.currentIndex - (1 + resultX);
-                RealIndex[this.currentIndex + 1]++;
-            }
-            this.runTime++;
-
-            if (this.runTime > 10000)
-            {
-                console.error("loop!!!");
-                break;
+                newObj[i] = this.deepCopy(oldObj[i]);
             }
         }
-
+        return newObj;
     }
 }
