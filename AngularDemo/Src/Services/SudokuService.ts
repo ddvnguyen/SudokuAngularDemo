@@ -17,6 +17,7 @@ export class SudokuService
 
     public setInitData = (data: number[][], wSmall: number, hSmall: number, wBig: number, hBig: number) =>
     {
+        this.C = new Array();
         console.warn("setInitData");
         for (var hb = 0; hb < hBig; hb++)
             for (var wb = 1; wb <= wBig; wb++)
@@ -48,6 +49,7 @@ export class SudokuService
 
     public getResultForCell = (index: number, RealIndex: number[]) =>
     {
+        console.log("getResultForCell", index, RealIndex);
         return this.getAvailableForCell(index, this.RF, this.C, this.AvailableArray, RealIndex, this.FIX);
     }
 

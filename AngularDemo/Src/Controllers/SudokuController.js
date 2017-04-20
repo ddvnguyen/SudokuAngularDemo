@@ -22,10 +22,9 @@ var SudokuController = (function () {
         this.isPause = false;
         this.runTime = 0;
         this.runSolve = function () {
+            console.error("__________________________________________________________________");
             console.warn("Data", _this.sudokuResult, _this.scope.sudokuData);
             var C = _this.sudokuService.setInitData(_this.sudokuResult, 3, 3, 3, 3);
-            var width = 3;
-            var height = 3;
             _this.currentIndex = 0;
             var resultX;
             _this.runTime = 0;
@@ -35,10 +34,11 @@ var SudokuController = (function () {
                     if (_this.currentIndex > 80 || _this.isStop || _this.runTime > 10000)
                         clearInterval(loop);
                     else {
-                        var i = Math.floor((_this.currentIndex) / (width * height));
-                        var j = (_this.currentIndex) % (width * height);
+                        var i = Math.floor((_this.currentIndex) / (_this.broadWidth * _this.broadHeight));
+                        var j = (_this.currentIndex) % (_this.broadWidth * _this.broadHeight);
                         //console.log("index", this.currentIndex, i, j);
                         resultX = 0;
+                        console.log("C", _this.currentIndex, C[_this.currentIndex]);
                         if (C[_this.currentIndex] === 0) {
                             if (RealIndex[_this.currentIndex] === null || RealIndex[_this.currentIndex] === undefined)
                                 RealIndex[_this.currentIndex] = 0;
@@ -47,6 +47,7 @@ var SudokuController = (function () {
                         }
                         if (resultX > 0) {
                             _this.currentIndex = _this.currentIndex - (1 + resultX);
+                            _this.clearBroad(_this.currentIndex + 1, 1 + resultX);
                             RealIndex[_this.currentIndex + 1]++;
                         }
                         _this.runTime++;
@@ -54,12 +55,30 @@ var SudokuController = (function () {
                         console.log("Question Data:", _this.scope.sudokuData);
                         console.log("Answer Data:", _this.sudokuResult);
                     }
-            }, 100);
+            }, 200);
             if (_this.runTime > 10000)
                 console.error("loop!!!");
             console.log("Question Data:", _this.scope.sudokuData);
             _this.isStop = false;
         };
+        this.stopRunning = function () {
+            _this.isStop = true;
+            _this.isPause = false;
+            _this.clearBroad(0);
+        };
+        this.clearBroad = function (index, number) {
+            var limit = 81;
+            if (number !== undefined && number !== null)
+                limit = index + number;
+            for (index; index < limit; index++) {
+                var i = Math.floor((index) / (_this.broadWidth * _this.broadHeight));
+                var j = (index) % (_this.broadWidth * _this.broadHeight);
+                if (_this.scope.sudokuData[i][j] === 0)
+                    _this.sudokuResult[i][j] = 0;
+            }
+        };
+        this.broadWidth = 3;
+        this.broadHeight = 3;
         console.warn("SudokuController constructor");
         this.scope = { sudokuData: new Array(), sudokuResult: new Array(), sudokuData12: new Array() };
         var sudoku12 = [

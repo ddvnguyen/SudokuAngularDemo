@@ -87,7 +87,6 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Src\app\app.component.css" />
     <Content Include="Global.asax" />
     <Content Include="index.html" />
     <Content Include="Src\Controllers\SudokuController.html" />
@@ -154,7 +153,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>3276</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:1423/</IISUrl>
+          <IISUrl>http://localhost:1400/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

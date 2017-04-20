@@ -18,11 +18,18 @@ export class SudokuController
     }
     public sudokuResult: number[][] = new Array();
     private currentIndex: number;
+    private broadWidth: number;
+    private broadHeight: number;
+
     public isStop: boolean = false;
     public isPause: boolean = false;
     public runTime: number = 0;
+
+
     constructor( @Inject(SudokuService) private sudokuService: SudokuService)
     {
+        this.broadWidth = 3;
+        this.broadHeight = 3;
         console.warn("SudokuController constructor");
         this.scope = { sudokuData: new Array(), sudokuResult: new Array(), sudokuData12: new Array() };
         var sudoku12 =
@@ -84,10 +91,9 @@ export class SudokuController
 
     public runSolve = () =>
     {
+        console.error("__________________________________________________________________");
         console.warn("Data", this.sudokuResult, this.scope.sudokuData);
         var C = this.sudokuService.setInitData(this.sudokuResult, 3, 3, 3, 3);
-        var width: number = 3;
-        var height: number = 3;
         this.currentIndex = 0;
         var resultX: number;
         this.runTime = 0;
@@ -101,12 +107,13 @@ export class SudokuController
                 else
                 {
 
-                    var i = Math.floor((this.currentIndex) / (width * height));
-                    var j = (this.currentIndex) % (width * height);
+                    var i = Math.floor((this.currentIndex) / (this.broadWidth * this.broadHeight));
+                    var j = (this.currentIndex) % (this.broadWidth * this.broadHeight);
                     //console.log("index", this.currentIndex, i, j);
 
                     resultX = 0;
 
+                    console.log("C", this.currentIndex, C[this.currentIndex]);
                     if (C[this.currentIndex] === 0)
                     {
                         if (RealIndex[this.currentIndex] === null || RealIndex[this.currentIndex] === undefined)
@@ -119,6 +126,7 @@ export class SudokuController
                     if (resultX > 0)
                     {
                         this.currentIndex = this.currentIndex - (1 + resultX);
+                        this.clearBroad(this.currentIndex + 1, 1 + resultX);
                         RealIndex[this.currentIndex + 1]++;
                     }
 
@@ -128,13 +136,37 @@ export class SudokuController
                     console.log("Answer Data:", this.sudokuResult);
                 }
 
-        }, 100);
+        }, 200);
 
         if (this.runTime > 10000)
             console.error("loop!!!");
 
         console.log("Question Data:", this.scope.sudokuData);
         this.isStop = false;
+    }
+
+    public stopRunning = () =>
+    {
+        this.isStop = true;
+        this.isPause = false;
+        this.clearBroad(0);
+    }
+
+    public clearBroad = (index: number, number?: number) =>
+    {
+        var limit: number = 81;
+        if (number !== undefined && number !== null)
+            limit = index + number;
+
+        for (index; index < limit; index++)
+        {
+            var i = Math.floor((index) / (this.broadWidth * this.broadHeight));
+            var j = (index) % (this.broadWidth * this.broadHeight);
+
+            if (this.scope.sudokuData[i][j] === 0)
+                this.sudokuResult[i][j] = 0;
+        }
+
     }
 
     public deepCopy(oldObj: any)
