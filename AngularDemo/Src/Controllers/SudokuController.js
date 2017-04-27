@@ -24,12 +24,14 @@ var SudokuController = (function () {
         this.runSolve = function () {
             console.error("__________________________________________________________________");
             console.warn("Data", _this.sudokuResult, _this.scope.sudokuData);
-            var C = _this.sudokuService.setInitData(_this.sudokuResult, 3, 3, 3, 3);
+            var C = _this.sudokuService.setInitData(_this.sudokuResult, _this.broadWidth, _this.broadHeight, _this.broadWidth, _this.broadHeight);
             _this.currentIndex = 0;
             var resultX;
             _this.runTime = 0;
             var RealIndex = new Array;
             var loop = setInterval(function () {
+                if (!confirm("Go Next?"))
+                    clearInterval(loop);
                 if (!_this.isPause)
                     if (_this.currentIndex > 80 || _this.isStop || _this.runTime > 10000)
                         clearInterval(loop);
@@ -52,16 +54,14 @@ var SudokuController = (function () {
                         }
                         _this.runTime++;
                         _this.currentIndex++;
-                        console.log("Question Data:", _this.scope.sudokuData);
-                        console.log("Answer Data:", _this.sudokuResult);
                     }
             }, 200);
             if (_this.runTime > 10000)
                 console.error("loop!!!");
-            console.log("Question Data:", _this.scope.sudokuData);
             _this.isStop = false;
         };
         this.stopRunning = function () {
+            console.warn("stopRunning");
             _this.isStop = true;
             _this.isPause = false;
             _this.clearBroad(0);
@@ -109,8 +109,10 @@ var SudokuController = (function () {
         //this.scope.sudokuData = sudoku9;
         //this.scope.sudokuData12 = sudoku12;
         //this.sudokuResult = sudoku9;
-        this.sudokuResult = this.deepCopy(sudoku9);
-        this.scope.sudokuData = this.deepCopy(sudoku9);
+        this.sudokuResult = this.deepCopy(sudoku12);
+        this.scope.sudokuData = this.deepCopy(sudoku12);
+        this.broadWidth = 4;
+        this.broadHeight = 3;
         //this.scope.sudokuData = Object.create(sudoku9);
         //var result = this.sudokuService.solveSudoku(this.scope.sudokuData, 4, 3, 4, 3);
         //var result = this.sudokuService.solveSudoku(this.scope.sudokuData, 3, 3, 3, 3); 

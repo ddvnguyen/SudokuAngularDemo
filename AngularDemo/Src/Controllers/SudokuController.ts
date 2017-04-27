@@ -67,8 +67,10 @@ export class SudokuController
         //this.scope.sudokuData = sudoku9;
         //this.scope.sudokuData12 = sudoku12;
         //this.sudokuResult = sudoku9;
-        this.sudokuResult = this.deepCopy(sudoku9);
-        this.scope.sudokuData = this.deepCopy(sudoku9);
+        this.sudokuResult = this.deepCopy(sudoku12);
+        this.scope.sudokuData = this.deepCopy(sudoku12);
+        this.broadWidth = 4;
+        this.broadHeight = 3;
         //this.scope.sudokuData = Object.create(sudoku9);
 
         //var result = this.sudokuService.solveSudoku(this.scope.sudokuData, 4, 3, 4, 3);
@@ -93,7 +95,7 @@ export class SudokuController
     {
         console.error("__________________________________________________________________");
         console.warn("Data", this.sudokuResult, this.scope.sudokuData);
-        var C = this.sudokuService.setInitData(this.sudokuResult, 3, 3, 3, 3);
+        var C = this.sudokuService.setInitData(this.sudokuResult, this.broadWidth, this.broadHeight, this.broadWidth, this.broadHeight);
         this.currentIndex = 0;
         var resultX: number;
         this.runTime = 0;
@@ -101,6 +103,9 @@ export class SudokuController
 
         var loop = setInterval(() =>
         {
+            if (!confirm("Go Next?"))
+                clearInterval(loop);
+
             if (!this.isPause)
                 if (this.currentIndex > 80 || this.isStop || this.runTime > 10000)
                     clearInterval(loop);
@@ -132,8 +137,8 @@ export class SudokuController
 
                     this.runTime++;
                     this.currentIndex++;
-                    console.log("Question Data:", this.scope.sudokuData);
-                    console.log("Answer Data:", this.sudokuResult);
+                    //console.log("Question Data:", this.scope.sudokuData);
+                    //console.log("Answer Data:", this.sudokuResult);
                 }
 
         }, 200);
@@ -141,12 +146,12 @@ export class SudokuController
         if (this.runTime > 10000)
             console.error("loop!!!");
 
-        console.log("Question Data:", this.scope.sudokuData);
         this.isStop = false;
     }
 
     public stopRunning = () =>
     {
+        console.warn("stopRunning");
         this.isStop = true;
         this.isPause = false;
         this.clearBroad(0);

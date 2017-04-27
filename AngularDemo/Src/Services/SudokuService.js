@@ -18,6 +18,8 @@ var SudokuService = (function () {
         this.RF = new Array();
         this.C = new Array();
         this.setInitData = function (data, wSmall, hSmall, wBig, hBig) {
+            _this.width = wSmall;
+            _this.height = hSmall;
             _this.C = new Array();
             console.warn("setInitData");
             for (var hb = 0; hb < hBig; hb++)
@@ -113,9 +115,12 @@ var SudokuService = (function () {
             var Row = RF[index].toString().charAt(0);
             var Block = RF[index].toString().charAt(1);
             var Colume = RF[index].toString().charAt(2);
-            AvailableArray[index] = [];
+            console.log("AvailableArray[index]", AvailableArray[index]);
+            if (AvailableArray[index] == undefined)
+                AvailableArray[index] = [];
             for (var i = 0; i < 81; i++) {
                 if (RF[i] !== RF[index]) {
+                    console.log("RF[i]", RF[i]);
                     if ((RF[i].charAt(0)) == Row) {
                         if (C[i] != 0)
                             TempListR.push(C[i]);
@@ -130,7 +135,10 @@ var SudokuService = (function () {
                     }
                 }
             }
-            for (var i = 1; i < 10; i++) {
+            console.log("TempListC", TempListC);
+            console.log("TempListB", TempListB);
+            console.log("TempListR", TempListR);
+            for (var i = 1; i < (_this.height * _this.width + 1); i++) {
                 if ((TempListC.indexOf(i) === -1) &&
                     (TempListB.indexOf(i) === -1) &&
                     (TempListR.indexOf(i) === -1)) {
@@ -158,7 +166,7 @@ var SudokuService = (function () {
                 console.log("get ", RealIndex, index, RealIndex[index]);
                 C[index] = AvailableArray[index][RealIndex[index]];
             }
-            console.log("getAvailableForCell", result, C);
+            console.log("getAvailableForCell", result);
             return result;
         };
         this.referenceTable = function (wSmall, hSmall, wBig, hBig) {

@@ -8,22 +8,22 @@
     </div>
 
 
-    <div class="row col-xs-12 form-group" style="text-align:center;margin:auto;">
-        <div style="border:solid 1px;display:inline-grid">
-            <div *ngFor="let row of sudokuResult;let i = index">
-                <span class="sudoku-cell" *ngFor="let col of row;let j = index"
-                      [ngClass]="cellClass(scope.sudokuData[i][j] === col && scope.sudokuData[i][j] !== 0,i*9+j)"
-                      [innerHTML]="col !== 0?col:'&nbsp;'">
-                </span>
+    <div class="row form-group" style="margin:auto;">
+        <div class="col-xs-12">
+            <div style="border:solid 1px;display:inline-grid">
+                <div *ngFor="let row of sudokuResult;let i = index">
+                    <span class="sudoku-cell" *ngFor="let col of row;let j = index"
+                          [ngClass]="cellClass(scope.sudokuData[i][j] === col && scope.sudokuData[i][j] !== 0,i*9+j)"
+                          [innerHTML]="col !== 0?col:'&nbsp;'">
+                    </span>
+                </div>
             </div>
         </div>
     </div>
-
-    <div class="row col-xs-12" style="text-align:center">
-        <div class="btn-group">
-            <input type="button" class="btn btn-primary" value="Go" (click)="runSolve()" />
-            <input type="button" class="btn btn-primary" [ngClass]="isPause === true?'isPause':''" value="Pause" (click)="isPause = !isPause" />
-            <input type="button" class="btn btn-danger" value="Stop" (click)="stopRunning()" />
-        </div>
+                    <hr />
+    <div class="row col-xs-12 btn-group" style="margin:auto">
+        <input type="button" class="btn btn-primary" value="Go" (click)="stopRunning();runSolve()" />
+        <input type="button" class="btn btn-primary" [ngClass]="isPause === true?'isPause':''" value="Pause" (click)="isPause = !isPause" />
+        <input type="button" class="btn btn-danger" value="Stop" (click)="stopRunning()" />
     </div>
 </div>

@@ -14,9 +14,13 @@ export class SudokuService
     private FIX: boolean[] = new Array();
     private RF: string[] = new Array();
     private C: number[] = new Array();
+    private width: number;
+    private height: number;
 
     public setInitData = (data: number[][], wSmall: number, hSmall: number, wBig: number, hBig: number) =>
     {
+        this.width = wSmall;
+        this.height = hSmall;
         this.C = new Array();
         console.warn("setInitData");
         for (var hb = 0; hb < hBig; hb++)
@@ -147,12 +151,15 @@ export class SudokuService
         var Row = RF[index].toString().charAt(0);
         var Block = RF[index].toString().charAt(1);
         var Colume = RF[index].toString().charAt(2);
-        AvailableArray[index] = [];
+        console.log("AvailableArray[index]", AvailableArray[index]);
+        if (AvailableArray[index] == undefined)
+            AvailableArray[index] = [];
 
         for (var i = 0; i < 81; i++)
         {
             if (RF[i] !== RF[index])
             {
+                console.log("RF[i]", RF[i]);
                 if ((RF[i].charAt(0)) == Row) 
                 {
                     if (C[i] != 0)
@@ -173,7 +180,11 @@ export class SudokuService
             }
         }
 
-        for (var i = 1; i < 10; i++)
+        console.log("TempListC", TempListC);
+        console.log("TempListB", TempListB);
+        console.log("TempListR", TempListR);
+
+        for (var i = 1; i < (this.height * this.width + 1); i++)
         {
             if ((TempListC.indexOf(i) === -1) &&
                 (TempListB.indexOf(i) === -1) &&
@@ -212,7 +223,7 @@ export class SudokuService
             C[index] = AvailableArray[index][RealIndex[index]];
         }
 
-        console.log("getAvailableForCell", result, C);
+        console.log("getAvailableForCell", result);
         return result;
     }
 
