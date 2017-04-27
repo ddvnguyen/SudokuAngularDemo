@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var index_1 = require("../Models/index");
+var Models = require("../Models/index");
 var SudokuService = (function () {
     function SudokuService() {
         var _this = this;
@@ -29,7 +29,7 @@ var SudokuService = (function () {
                             var row = wb + hb * wBig;
                             var col = hs * wSmall + ws;
                             var block = hs + 1 + hb * wBig;
-                            var referenceNode = new index_1.ReferenceNode(row, col, block);
+                            var referenceNode = new Models.ReferenceNode(row, col, block);
                             if (data[row - 1][col - 1] > 0) {
                                 _this.C.push(data[row - 1][col - 1]);
                                 _this.FIX.push(true);
@@ -61,7 +61,7 @@ var SudokuService = (function () {
                             var col = hs * wSmall + ws;
                             var block = hs + 1 + hb * wBig;
                             //console.log(row, col, block);
-                            var referenceNode = new index_1.ReferenceNode(row, col, block);
+                            var referenceNode = new Models.ReferenceNode(row, col, block);
                             //console.log(referenceNode);
                             if (data[row - 1][col - 1] > 0) {
                                 C.push(data[row - 1][col - 1]);

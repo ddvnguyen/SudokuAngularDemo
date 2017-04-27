@@ -133,8 +133,10 @@
     <TypeScriptCompile Include="Src\app\main.ts" />
     <TypeScriptCompile Include="Src\Controllers\SudokuController.ts" />
     <TypeScriptCompile Include="Src\Directives\BoardDrawDirective.ts" />
+    <TypeScriptCompile Include="Src\Models\Dictionary.ts" />
     <TypeScriptCompile Include="Src\Models\index.ts" />
     <TypeScriptCompile Include="Src\Models\ReferenceNode.ts" />
+    <TypeScriptCompile Include="Src\Models\SudokuTable.ts" />
     <TypeScriptCompile Include="Src\Services\SudokuService.ts" />
   </ItemGroup>
   <PropertyGroup>

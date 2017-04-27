@@ -1,6 +1,6 @@
 ﻿import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { ReferenceNode } from "../Models/index";
+import * as Models from "../Models/index";
 
 @Injectable()
 export class SudokuService
@@ -32,7 +32,7 @@ export class SudokuService
                         var col = hs * wSmall + ws;
                         var block = hs + 1 + hb * wBig
 
-                        var referenceNode: ReferenceNode = new ReferenceNode(row, col, block);
+                        var referenceNode: Models.IReferenceNode = new Models.ReferenceNode(row, col, block);
 
                         if (data[row - 1][col - 1] > 0)
                         {
@@ -77,7 +77,7 @@ export class SudokuService
                         var block = hs + 1 + hb * wBig
                         //console.log(row, col, block);
 
-                        var referenceNode: ReferenceNode = new ReferenceNode(row, col, block);
+                        var referenceNode: Models.IReferenceNode = new Models.ReferenceNode(row, col, block);
                         //console.log(referenceNode);
 
                         if (data[row - 1][col - 1] > 0)
@@ -231,7 +231,7 @@ export class SudokuService
 
     public referenceTable = (wSmall: number, hSmall: number, wBig: number, hBig: number) =>
     {
-        var result: ReferenceNode[] = new Array<ReferenceNode>();
+        var result: Models.ReferenceNode[] = new Array<Models.ReferenceNode>();
         for (var hb = 0; hb < hBig; hb++)
             for (var wb = 1; wb <= wBig; wb++)
                 for (var hs = 0; hs < hSmall; hs++)
