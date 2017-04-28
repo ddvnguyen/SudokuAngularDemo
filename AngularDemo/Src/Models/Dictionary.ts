@@ -1,10 +1,11 @@
 ﻿export interface IDictionary<T>
 {
-    add(key: string, value: any): void;
+    add(key: string, value: T): void;
     remove(key: string): void;
     containsKey(key: string): boolean;
     keys(): string[];
-    values(): any[];
+    values(): T[];
+    getValue: (key: string) => T;
 }
 
 export class Dictionary<T> implements IDictionary<T>
@@ -15,7 +16,6 @@ export class Dictionary<T> implements IDictionary<T>
 
     constructor(init: { key: string; value: T; }[])
     {
-
         for (var x = 0; x < init.length; x++)
         {
             this[init[x].key] = init[x].value;
@@ -24,10 +24,12 @@ export class Dictionary<T> implements IDictionary<T>
         }
     }
 
-    add(key: string, value: any)
+    add(key: string, value: T)
     {
+        console.log("add", key, value);
         this[key] = value;
-        this._keys.push(key);
+        if (this._keys.indexOf(key) < 0)
+            this._keys.push(key);
         this._values.push(value);
     }
 
@@ -45,9 +47,15 @@ export class Dictionary<T> implements IDictionary<T>
         return this._keys;
     }
 
-    values(): any[]
+    values(): T[]
     {
         return this._values;
+    }
+
+    getValue = (key: string) => 
+    {
+        var result: T = this[key]
+        return result;
     }
 
     containsKey(key: string)

@@ -1,6 +1,10 @@
 ﻿import { Component, Inject, ViewContainerRef, ChangeDetectorRef, NgModule, OnInit, OnDestroy, AfterViewInit, NgZone } from '@angular/core';
-import { SudokuService } from "../Services/SudokuService"
-import { Observable } from 'rxjs/Rx';
+import { SudokuService } from "../Services/SudokuService";
+import { Observable } from "rxjs/Rx";
+
+import { Utils } from "../Utils/Utils"
+import * as Models from "../Models/index";
+
 
 @Component
     ({
@@ -67,8 +71,8 @@ export class SudokuController
         //this.scope.sudokuData = sudoku9;
         //this.scope.sudokuData12 = sudoku12;
         //this.sudokuResult = sudoku9;
-        this.sudokuResult = this.deepCopy(sudoku12);
-        this.scope.sudokuData = this.deepCopy(sudoku12);
+        this.sudokuResult = Utils.deepCopy(sudoku12);
+        this.scope.sudokuData = Utils.deepCopy(sudoku12);
         this.broadWidth = 4;
         this.broadHeight = 3;
         //this.scope.sudokuData = Object.create(sudoku9);
@@ -95,6 +99,10 @@ export class SudokuController
     {
         console.error("__________________________________________________________________");
         console.warn("Data", this.sudokuResult, this.scope.sudokuData);
+
+        var sudokuTable: Models.ISudokuTable = new Models.SudokuTable(this.scope.sudokuData, this.broadWidth, this.broadHeight);
+        console.log("sudokuTable", sudokuTable);
+
         var C = this.sudokuService.setInitData(this.sudokuResult, this.broadWidth, this.broadHeight, this.broadWidth, this.broadHeight);
         this.currentIndex = 0;
         var resultX: number;
@@ -172,19 +180,5 @@ export class SudokuController
                 this.sudokuResult[i][j] = 0;
         }
 
-    }
-
-    public deepCopy(oldObj: any)
-    {
-        var newObj = oldObj;
-        if (oldObj && typeof oldObj === "object")
-        {
-            newObj = Object.prototype.toString.call(oldObj) === "[object Array]" ? [] : {};
-            for (var i in oldObj)
-            {
-                newObj[i] = this.deepCopy(oldObj[i]);
-            }
-        }
-        return newObj;
     }
 }

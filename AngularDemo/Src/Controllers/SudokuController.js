@@ -13,6 +13,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 var core_1 = require("@angular/core");
 var SudokuService_1 = require("../Services/SudokuService");
+var Utils_1 = require("../Utils/Utils");
+var Models = require("../Models/index");
 var SudokuController = (function () {
     function SudokuController(sudokuService) {
         var _this = this;
@@ -24,6 +26,8 @@ var SudokuController = (function () {
         this.runSolve = function () {
             console.error("__________________________________________________________________");
             console.warn("Data", _this.sudokuResult, _this.scope.sudokuData);
+            var sudokuTable = new Models.SudokuTable(_this.scope.sudokuData, _this.broadWidth, _this.broadHeight);
+            console.log("sudokuTable", sudokuTable);
             var C = _this.sudokuService.setInitData(_this.sudokuResult, _this.broadWidth, _this.broadHeight, _this.broadWidth, _this.broadHeight);
             _this.currentIndex = 0;
             var resultX;
@@ -109,8 +113,8 @@ var SudokuController = (function () {
         //this.scope.sudokuData = sudoku9;
         //this.scope.sudokuData12 = sudoku12;
         //this.sudokuResult = sudoku9;
-        this.sudokuResult = this.deepCopy(sudoku12);
-        this.scope.sudokuData = this.deepCopy(sudoku12);
+        this.sudokuResult = Utils_1.Utils.deepCopy(sudoku12);
+        this.scope.sudokuData = Utils_1.Utils.deepCopy(sudoku12);
         this.broadWidth = 4;
         this.broadHeight = 3;
         //this.scope.sudokuData = Object.create(sudoku9);
@@ -125,16 +129,6 @@ var SudokuController = (function () {
             classStr = "fixed-cell";
         //console.log(fix, index, classStr);
         return classStr;
-    };
-    SudokuController.prototype.deepCopy = function (oldObj) {
-        var newObj = oldObj;
-        if (oldObj && typeof oldObj === "object") {
-            newObj = Object.prototype.toString.call(oldObj) === "[object Array]" ? [] : {};
-            for (var i in oldObj) {
-                newObj[i] = this.deepCopy(oldObj[i]);
-            }
-        }
-        return newObj;
     };
     return SudokuController;
 }());

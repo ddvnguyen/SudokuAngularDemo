@@ -1,8 +1,13 @@
 "use strict";
 var Dictionary = (function () {
     function Dictionary(init) {
+        var _this = this;
         this._keys = [];
         this._values = [];
+        this.getValue = function (key) {
+            var result = _this[key];
+            return result;
+        };
         for (var x = 0; x < init.length; x++) {
             this[init[x].key] = init[x].value;
             this._keys.push(init[x].key);
@@ -10,8 +15,10 @@ var Dictionary = (function () {
         }
     }
     Dictionary.prototype.add = function (key, value) {
+        console.log("add", key, value);
         this[key] = value;
-        this._keys.push(key);
+        if (this._keys.indexOf(key) < 0)
+            this._keys.push(key);
         this._values.push(value);
     };
     Dictionary.prototype.remove = function (key) {

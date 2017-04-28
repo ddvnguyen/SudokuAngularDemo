@@ -3,8 +3,8 @@
     <!--<board-draw [sudokuData]="scope.sudokuData" [sudokuResult]="scope.sudokuResult"></board-draw>
 
     <hr />-->
-    <div class="row col-xs-12 form-group">
-        <label>{{runTime}}</label>
+    <div class="row col-xs-12 form-group" style="margin:auto;">
+        <label [hidden]="runTime === 0 || runTime === undified||runTime === null">Runtime:{{runTime}}</label>
     </div>
 
 

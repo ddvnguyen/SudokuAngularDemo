@@ -138,6 +138,7 @@
     <TypeScriptCompile Include="Src\Models\ReferenceNode.ts" />
     <TypeScriptCompile Include="Src\Models\SudokuTable.ts" />
     <TypeScriptCompile Include="Src\Services\SudokuService.ts" />
+    <TypeScriptCompile Include="Src\Utils\Utils.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
