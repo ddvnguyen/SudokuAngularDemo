@@ -20,6 +20,8 @@ var SudokuService = (function () {
         this.setInitData = function (data, wSmall, hSmall, wBig, hBig) {
             _this.width = wSmall;
             _this.height = hSmall;
+            _this.areaS = _this.height * _this.width;
+            _this.areaB = _this.areaS * _this.areaS;
             _this.C = new Array();
             console.warn("setInitData");
             for (var hb = 0; hb < hBig; hb++)
@@ -118,9 +120,9 @@ var SudokuService = (function () {
             console.log("AvailableArray[index]", AvailableArray[index]);
             if (AvailableArray[index] == undefined)
                 AvailableArray[index] = [];
-            for (var i = 0; i < 81; i++) {
+            console.log("lenght", _this.areaB);
+            for (var i = 0; i < _this.areaB; i++) {
                 if (RF[i] !== RF[index]) {
-                    console.log("RF[i]", RF[i]);
                     if ((RF[i].charAt(0)) == Row) {
                         if (C[i] != 0)
                             TempListR.push(C[i]);
@@ -138,7 +140,7 @@ var SudokuService = (function () {
             console.log("TempListC", TempListC);
             console.log("TempListB", TempListB);
             console.log("TempListR", TempListR);
-            for (var i = 1; i < (_this.height * _this.width + 1); i++) {
+            for (var i = 1; i < (_this.areaS + 1); i++) {
                 if ((TempListC.indexOf(i) === -1) &&
                     (TempListB.indexOf(i) === -1) &&
                     (TempListR.indexOf(i) === -1)) {

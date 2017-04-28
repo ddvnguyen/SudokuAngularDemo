@@ -16,11 +16,16 @@ export class SudokuService
     private C: number[] = new Array();
     private width: number;
     private height: number;
+    private areaS:number;
+    private areaB:number;
+
 
     public setInitData = (data: number[][], wSmall: number, hSmall: number, wBig: number, hBig: number) =>
     {
         this.width = wSmall;
         this.height = hSmall;
+        this.areaS = this.height * this.width;
+        this.areaB = this.areaS * this.areaS;
         this.C = new Array();
         console.warn("setInitData");
         for (var hb = 0; hb < hBig; hb++)
@@ -154,12 +159,12 @@ export class SudokuService
         console.log("AvailableArray[index]", AvailableArray[index]);
         if (AvailableArray[index] == undefined)
             AvailableArray[index] = [];
+        console.log("lenght", this.areaB)
 
-        for (var i = 0; i < 81; i++)
+        for (var i = 0; i < this.areaB; i++)
         {
             if (RF[i] !== RF[index])
             {
-                console.log("RF[i]", RF[i]);
                 if ((RF[i].charAt(0)) == Row) 
                 {
                     if (C[i] != 0)
@@ -184,7 +189,7 @@ export class SudokuService
         console.log("TempListB", TempListB);
         console.log("TempListR", TempListR);
 
-        for (var i = 1; i < (this.height * this.width + 1); i++)
+        for (var i = 1; i < (this.areaS + 1); i++)
         {
             if ((TempListC.indexOf(i) === -1) &&
                 (TempListB.indexOf(i) === -1) &&

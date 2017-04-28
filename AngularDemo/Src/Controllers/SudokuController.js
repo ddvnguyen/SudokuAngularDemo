@@ -37,8 +37,11 @@ var SudokuController = (function () {
                 if (!confirm("Go Next?"))
                     clearInterval(loop);
                 if (!_this.isPause)
-                    if (_this.currentIndex > 80 || _this.isStop || _this.runTime > 10000)
+                    if (_this.currentIndex > _this.broadWidth * _this.broadWidth * _this.broadHeight * _this.broadHeight - 1 ||
+                        _this.isStop ||
+                        _this.runTime > 10000) {
                         clearInterval(loop);
+                    }
                     else {
                         var i = Math.floor((_this.currentIndex) / (_this.broadWidth * _this.broadHeight));
                         var j = (_this.currentIndex) % (_this.broadWidth * _this.broadHeight);

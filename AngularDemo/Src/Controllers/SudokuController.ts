@@ -109,14 +109,19 @@ export class SudokuController
         this.runTime = 0;
         var RealIndex: number[] = new Array;
 
+
         var loop = setInterval(() =>
         {
             if (!confirm("Go Next?"))
                 clearInterval(loop);
 
             if (!this.isPause)
-                if (this.currentIndex > 80 || this.isStop || this.runTime > 10000)
+                if (this.currentIndex > this.broadWidth * this.broadWidth * this.broadHeight * this.broadHeight - 1 ||
+                    this.isStop ||
+                    this.runTime > 10000)
+                {
                     clearInterval(loop);
+                }
                 else
                 {
 
