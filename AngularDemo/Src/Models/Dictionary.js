@@ -1,5 +1,6 @@
 "use strict";
-var Dictionary = (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+var Dictionary = /** @class */ (function () {
     function Dictionary(init) {
         var _this = this;
         this._keys = [];
@@ -15,7 +16,6 @@ var Dictionary = (function () {
         }
     }
     Dictionary.prototype.add = function (key, value) {
-        console.log("add", key, value);
         this[key] = value;
         if (this._keys.indexOf(key) < 0)
             this._keys.push(key);

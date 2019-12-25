@@ -20,9 +20,10 @@
             </div>
         </div>
     </div>
-                    <hr />
+    <hr />
     <div class="row col-xs-12 btn-group" style="margin:auto">
         <input type="button" class="btn btn-primary" value="Go" (click)="stopRunning();runSolve()" />
+        <input type="button" class="btn btn-primary" value="Solve By Wasm" (click)="stopRunning();runSolveWasm()" />
         <input type="button" class="btn btn-primary" [ngClass]="isPause === true?'isPause':''" value="Pause" (click)="isPause = !isPause" />
         <input type="button" class="btn btn-danger" value="Stop" (click)="stopRunning()" />
     </div>

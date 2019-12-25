@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "Example project from an angular.io guide.",
-  "scripts":
-  {
+  "scripts": {
     "test:once": "karma start karma.conf.js --single-run",
     "build": "tsc -p src/",
     "serve": "lite-server -c=bs-config.json",
@@ -26,8 +25,7 @@
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "dependencies":
-  {
+  "dependencies": {
     "@angular/common": "~4.0.0",
     "@angular/compiler": "~4.0.0",
     "@angular/compiler-cli": "~4.0.0",
@@ -46,8 +44,7 @@
     "systemjs": "0.19.39",
     "zone.js": "^0.8.4"
   },
-  "devDependencies":
-  {
+  "devDependencies": {
     "@types/angular": "^1.5.16",
     "@types/angular-animate": "^1.5.5",
     "@types/angular-cookies": "^1.4.2",

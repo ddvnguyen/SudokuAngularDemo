@@ -2,6 +2,7 @@
   "compileOnSave": true,
   "compilerOptions":
   {
+    "allowJs": true,
     "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
@@ -13,7 +14,16 @@
       "es2015",
       "dom"
     ],
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true
-  }
+  },
+  "include":
+  [
+    "Src/**/*"
+  ],
+  "exclude":
+  [
+    "node_modules",
+    "*.js"
+  ]
 }

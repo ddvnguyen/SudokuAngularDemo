@@ -11,58 +11,75 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var SudokuService_1 = require("../Services/SudokuService");
 var Utils_1 = require("../Utils/Utils");
 var Models = require("../Models/index");
-var SudokuController = (function () {
-    function SudokuController(sudokuService) {
+var SudokuWasmService_1 = require("../Services/SudokuWasmService");
+var SudokuController = /** @class */ (function () {
+    function SudokuController(sudokuService, sudokuWasmService) {
         var _this = this;
         this.sudokuService = sudokuService;
+        this.sudokuWasmService = sudokuWasmService;
         this.sudokuResult = new Array();
         this.isStop = false;
         this.isPause = false;
         this.runTime = 0;
+        this.runSolveWasm = function () {
+            var sudokuDataArray = [
+                0, 0, 6, 0, 3, 0, 0, 0, 0,
+                4, 0, 7, 1, 0, 0, 0, 2, 6,
+                0, 8, 0, 2, 5, 0, 7, 4, 1,
+                2, 6, 3, 7, 0, 8, 5, 0, 4,
+                0, 4, 0, 0, 0, 0, 0, 0, 0,
+                5, 0, 1, 6, 0, 3, 2, 7, 8,
+                9, 7, 4, 0, 6, 5, 0, 3, 0,
+                8, 3, 0, 0, 0, 1, 4, 0, 7,
+                0, 0, 0, 0, 7, 0, 9, 0, 0
+            ];
+            _this.sudokuResult = _this.sudokuWasmService.sudokuSolve(sudokuDataArray);
+        };
         this.runSolve = function () {
             console.error("__________________________________________________________________");
             console.warn("Data", _this.sudokuResult, _this.scope.sudokuData);
             var sudokuTable = new Models.SudokuTable(_this.scope.sudokuData, _this.broadWidth, _this.broadHeight);
             console.log("sudokuTable", sudokuTable);
-            var C = _this.sudokuService.setInitData(_this.sudokuResult, _this.broadWidth, _this.broadHeight, _this.broadWidth, _this.broadHeight);
+            _this.sudokuService.setInitData(_this.sudokuResult, _this.broadWidth, _this.broadHeight, _this.broadWidth, _this.broadHeight);
             _this.currentIndex = 0;
-            var resultX;
             _this.runTime = 0;
-            var RealIndex = new Array;
             var loop = setInterval(function () {
-                if (!confirm("Go Next?"))
-                    clearInterval(loop);
-                if (!_this.isPause)
-                    if (_this.currentIndex > _this.broadWidth * _this.broadWidth * _this.broadHeight * _this.broadHeight - 1 ||
+                var setTableResult = function (index, value) {
+                    var i = Math.floor((index) / (_this.broadWidth * _this.broadHeight));
+                    var j = (index) % (_this.broadWidth * _this.broadHeight);
+                    _this.sudokuResult[i][j] = value;
+                };
+                if (!_this.isPause) {
+                    if (_this.currentIndex > (_this.broadWidth * _this.broadWidth * _this.broadHeight * _this.broadHeight) - 1 ||
                         _this.isStop ||
                         _this.runTime > 10000) {
                         clearInterval(loop);
                     }
                     else {
-                        var i = Math.floor((_this.currentIndex) / (_this.broadWidth * _this.broadHeight));
-                        var j = (_this.currentIndex) % (_this.broadWidth * _this.broadHeight);
-                        //console.log("index", this.currentIndex, i, j);
-                        resultX = 0;
-                        console.log("C", _this.currentIndex, C[_this.currentIndex]);
-                        if (C[_this.currentIndex] === 0) {
-                            if (RealIndex[_this.currentIndex] === null || RealIndex[_this.currentIndex] === undefined)
-                                RealIndex[_this.currentIndex] = 0;
-                            resultX = _this.sudokuService.getResultForCell(_this.currentIndex, RealIndex);
-                            _this.sudokuResult[i][j] = C[_this.currentIndex];
+                        if (!_this.sudokuService.fixeds[_this.currentIndex]) {
+                            var cellResult = _this.sudokuService.getCellValue(_this.currentIndex);
+                            if (cellResult <= 0) {
+                                var newIndex = _this.sudokuService.handleResetBackward(_this.currentIndex, setTableResult);
+                                _this.clearBroad(newIndex, _this.currentIndex - newIndex);
+                                _this.currentIndex = newIndex;
+                            }
+                            else {
+                                setTableResult(_this.currentIndex, cellResult);
+                                _this.currentIndex++;
+                            }
                         }
-                        if (resultX > 0) {
-                            _this.currentIndex = _this.currentIndex - (1 + resultX);
-                            _this.clearBroad(_this.currentIndex + 1, 1 + resultX);
-                            RealIndex[_this.currentIndex + 1]++;
+                        else {
+                            _this.currentIndex++;
                         }
                         _this.runTime++;
-                        _this.currentIndex++;
                     }
-            }, 200);
+                }
+            }, 0);
             if (_this.runTime > 10000)
                 console.error("loop!!!");
             _this.isStop = false;
@@ -113,12 +130,9 @@ var SudokuController = (function () {
             [8, 3, 0, 0, 0, 1, 4, 0, 7],
             [0, 0, 0, 0, 7, 0, 9, 0, 0]
         ];
-        //this.scope.sudokuData = sudoku9;
-        //this.scope.sudokuData12 = sudoku12;
-        //this.sudokuResult = sudoku9;
-        this.sudokuResult = Utils_1.Utils.deepCopy(sudoku12);
-        this.scope.sudokuData = Utils_1.Utils.deepCopy(sudoku12);
-        this.broadWidth = 4;
+        this.sudokuResult = Utils_1.Utils.deepCopy(sudoku9);
+        this.scope.sudokuData = Utils_1.Utils.deepCopy(sudoku9);
+        this.broadWidth = 3;
         this.broadHeight = 3;
         //this.scope.sudokuData = Object.create(sudoku9);
         //var result = this.sudokuService.solveSudoku(this.scope.sudokuData, 4, 3, 4, 3);
@@ -133,16 +147,18 @@ var SudokuController = (function () {
         //console.log(fix, index, classStr);
         return classStr;
     };
+    SudokuController = __decorate([
+        core_1.Component({
+            selector: 'sudoku-app',
+            templateUrl: 'SudokuController.html',
+            moduleId: module.id
+        }),
+        __param(0, core_1.Inject(SudokuService_1.SudokuService)),
+        __param(1, core_1.Inject(SudokuWasmService_1.SudokuWasmService)),
+        __metadata("design:paramtypes", [SudokuService_1.SudokuService,
+            SudokuWasmService_1.SudokuWasmService])
+    ], SudokuController);
     return SudokuController;
 }());
-SudokuController = __decorate([
-    core_1.Component({
-        selector: 'sudoku-app',
-        templateUrl: 'SudokuController.html',
-        moduleId: module.id
-    }),
-    __param(0, core_1.Inject(SudokuService_1.SudokuService)),
-    __metadata("design:paramtypes", [SudokuService_1.SudokuService])
-], SudokuController);
 exports.SudokuController = SudokuController;
 //# sourceMappingURL=SudokuController.js.map

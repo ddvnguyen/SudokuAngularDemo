@@ -26,7 +26,6 @@ export class Dictionary<T> implements IDictionary<T>
 
     add(key: string, value: T)
     {
-        console.log("add", key, value);
         this[key] = value;
         if (this._keys.indexOf(key) < 0)
             this._keys.push(key);

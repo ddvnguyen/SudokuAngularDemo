@@ -1,5 +1,6 @@
 "use strict";
-var Utils = (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+var Utils = /** @class */ (function () {
     function Utils() {
     }
     Utils.deepCopy = function (oldObj) {

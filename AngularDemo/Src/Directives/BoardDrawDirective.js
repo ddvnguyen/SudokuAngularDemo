@@ -8,8 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var SudokuBoard = (function () {
+var SudokuBoard = /** @class */ (function () {
     function SudokuBoard() {
         console.warn("BoardDrawDirective constructor", this.sudokuData, this.sudokuResult);
     }
@@ -22,19 +23,19 @@ var SudokuBoard = (function () {
     SudokuBoard.prototype.ngOnChanges = function () {
         console.log("SudokuBoard ngOnChanges");
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Array)
+    ], SudokuBoard.prototype, "sudokuData", void 0);
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", Array)
+    ], SudokuBoard.prototype, "sudokuResult", void 0);
+    SudokuBoard = __decorate([
+        core_1.Component({ selector: "board-draw", templateUrl: "./BoardDrawDirective.html" }),
+        __metadata("design:paramtypes", [])
+    ], SudokuBoard);
     return SudokuBoard;
 }());
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", Array)
-], SudokuBoard.prototype, "sudokuData", void 0);
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", Array)
-], SudokuBoard.prototype, "sudokuResult", void 0);
-SudokuBoard = __decorate([
-    core_1.Component({ selector: "board-draw", templateUrl: "./BoardDrawDirective.html" }),
-    __metadata("design:paramtypes", [])
-], SudokuBoard);
 exports.SudokuBoard = SudokuBoard;
 //# sourceMappingURL=BoardDrawDirective.js.map

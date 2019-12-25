@@ -4,12 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { SudokuController } from '../Controllers/SudokuController';
 import { SudokuBoard } from "../Directives/BoardDrawDirective"
 import { SudokuService } from "../Services/SudokuService"
+import { SudokuWasmService } from "../Services/SudokuWasmService"
 
 @NgModule
     ({
         imports: [BrowserModule, FormsModule],
         declarations: [SudokuController, SudokuBoard],
-        providers: [SudokuService],
+        providers: [SudokuService, SudokuWasmService],
         bootstrap: [SudokuController]
     })
 export class AppModule { }
